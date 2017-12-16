@@ -17,8 +17,10 @@ gem 'jquery-rails',            '4.3.1'
 gem 'turbolinks',              '5.0.1'
 gem 'jbuilder',                '2.7.0'
 gem 'bootstrap',               '4.0.0.beta2'
-gem 'will_paginate-bootstrap4'
+gem 'will_paginate-bootstrap4','0.1.3'
 gem 'sprockets-rails',         '3.2.1'
+# gem 'font-awesome-sass',       '4.7.0'
+gem 'material_icons',          '2.2.1'
 
 group :development, :test do
   gem 'sqlite3', '1.3.13'

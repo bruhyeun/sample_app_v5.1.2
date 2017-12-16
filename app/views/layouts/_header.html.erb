@@ -1,23 +1,30 @@
 <header class="fixed-top">
   <nav class="navbar navbar-expand-lg navbar-light bg-light py-0">
-    <%= link_to "sample app", root_path, id: "logo", class: "navbar-brand" %>
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item"><%= link_to "Home", root_path, class: "nav-link" %></li>
-      <li class="nav-item"><%= link_to "Help", help_path, class: "nav-link" %></li>
+      <!--<%= link_to "sample app", root_path, class: "navbar-brand" %>-->
+      <li class="nav-item"><%= link_to "File", "#", class: "nav-link" %></li>
+      <li class="nav-item"><%= link_to "Edit", "#", class: "nav-link" %></li>
+      <li class="nav-item"><%= link_to "View", "#", class: "nav-link" %></li>
+      <li class="nav-item"><%= link_to "Tools", "#", class: "nav-link" %></li>
+    </ul>
+  
+    <ul class="navbar-nav justify-content-end">
+      <li class="nav-item p-0"><%= link_to mi.home.css_class('center-vertically'), root_path, class: "nav-link" %></li>
+      <li class="nav-item p-0"><%= link_to mi.help.css_class('center-vertically'), help_path, class: "nav-link" %></li>
       <% if logged_in? %>
-        <li class="nav-item"><%= link_to "Users", users_path, class: "nav-link" %></li>
-        <li class="nav-item dropdown">
-          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-            Account <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu">
-            <li class="dropdown-item"><%= link_to "Profile", current_user, class: "nav-link" %></li>
-            <li class="dropdown-item"><%= link_to "Settings", edit_user_path(current_user), class: "nav-link" %></li>
-            <li class="divider"></li>
-            <li class="dropdown-item">
-              <%= link_to "Log out", logout_path, method: :delete, class: "nav-link" %>
-            </li>
-          </ul>
+        <li class="nav-item p-0"><%= link_to mi.people.css_class('center-vertically'), users_path, class: "nav-link" %></li>
+        <li class="nav-item p-0"><%= link_to mi.settings.css_class('center-vertically'), "#", 
+                                                              class: "nav-link",
+                                                              id:"navbarDropdown", 
+                                                              # role:"button", 
+                                                              data: { toggle: "dropdown" }, 
+                                                              aria: {haspopup: true, expanded: false } %>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <%= link_to mi.person.css_class('center-vertically').to_s + " Profile", current_user, class: "dropdown-item" %>
+            <%= link_to mi.account_box.css_class('center-vertically').to_s + " Update Profile", edit_user_path(current_user), class: "dropdown-item" %>
+            <div class="dropdown-divider"></div>
+            <%= link_to mi.exit_to_app.css_class('center-vertically').to_s + " Logout", logout_path, method: :delete, class: "dropdown-item" %>
+          </div>
         </li>
       <% else %>
         <li><%= link_to "Log in", login_path, class: "nav-link" %></li>

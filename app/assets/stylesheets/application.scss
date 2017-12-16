@@ -1,4 +1,7 @@
 @import "bootstrap";
+// @import "font-awesome-sprockets";
+// @import "font-awesome";
+@import "material_icons";
 
 /* mixins, variables, etc. */
 
@@ -256,4 +259,8 @@ span.picture {
   input {
     border: 0;
   }
+}
+
+.center-vertically {
+  vertical-align:middle;
 }

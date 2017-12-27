@@ -1,0 +1,28 @@
+<tr>
+  <td><%= company.name %></td>
+  <td><%= company.alias %></td>
+  <td>
+    <address>
+      <%= company.address1 %></br>
+      <%= company.address2 %></br>
+      <%= company.city %></br>
+      <%= company.post_code %></br>
+      <%= company.country %></br>
+    </address>
+  </td>
+  <td>
+    <%= icon("phone", company.contact_number, class: "fa-fw") %></br>
+    <%= icon("envelope", company.email, class: "fa-fw") %></br>
+  </td>
+  <% if current_user.admin? %>
+    <td>  
+      <div class="btn-group mr-2" role="group">
+      <%= link_to icon("pencil", class: "fa-fw"), edit_company_path(company),
+                  class: "btn btn-sm", role: "button" %>
+      <%= link_to icon("trash", class: "fa-fw"), company, 
+                  class: "btn btn-sm", role: "button",
+                  method: :delete, data: { confirm: "You sure?" } %>
+      </div>
+    </td>
+  <% end %>
+</tr>

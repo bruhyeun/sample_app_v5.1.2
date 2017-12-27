@@ -11,14 +11,14 @@ class User < ApplicationRecord
   # Note to self: what if we replace :followed with :followed_user so 
   # pluralizing is not awkward anymore?
   has_many :following, through: :active_relationships, source: :followed
-  # the source:follower can actually be omitted
+  # the source: :follower can actually be omitted
   has_many :followers, through: :passive_relationships, source: :follower
+  belongs_to :company
   
   attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email
   before_create :create_activation_digest
   validates :name,  presence: true, length: { maximum: 50 }
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }

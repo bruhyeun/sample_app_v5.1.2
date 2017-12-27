@@ -16,15 +16,24 @@
   
     <ul class="navbar-nav justify-content-end">
       <%= nav_icon "home", root_path %>
-      <%= nav_icon "help", help_path %>
+      <%= nav_icon "info", help_path %>
       <% if logged_in? %>
-        <%= nav_icon "people", users_path %>
-        <%= dropdown_icon "settings", "#" do %>
+        <%= nav_icon "users", users_path %>
+        <%= dropdown_icon "bars", "#" do %>
           <%= dropdown_menu "dropdown-menu dropdown-menu-right" do %>
-            <%= dropdown_item_icon("person", current_user, "Profile") %>
-            <%= dropdown_item_icon("account_box", edit_user_path(current_user), "Update Profile") %>
+            <h6 class="dropdown-header">Profile Settings</h6>
+            <%= dropdown_item_icon("user", current_user, "Profile") %>
+            <%= dropdown_item_icon("pencil-square-o", edit_user_path(current_user), 
+                                                  "Update Profile") %>
             <%= dropdown_divider %>
-            <%= link_to mi.exit_to_app.css_class('center-vertically').to_s << " Logout", logout_path, method: :delete, class: "dropdown-item" %>
+            <% if current_user.admin? %>
+            <h6 class="dropdown-header">Admin Menu</h6>
+            <%= dropdown_item_icon("building", companies_path, "Companies") %>
+            <%= dropdown_divider %>
+            <% end %>
+            <%= link_to icon("sign-out", "Logout"), logout_path, 
+                                                    method: :delete, 
+                                                    class: "dropdown-item" %>
           <% end %>
         <% end %>
       <% else %>

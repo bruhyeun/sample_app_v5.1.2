@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171212144853) do
+ActiveRecord::Schema.define(version: 20171225184045) do
+
+  create_table "companies", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "alias"
+    t.string "address1"
+    t.string "address2"
+    t.string "city"
+    t.string "post_code"
+    t.string "country"
+    t.string "email"
+    t.string "contact_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "microposts", force: :cascade do |t|
     t.text "content"
@@ -20,6 +34,14 @@ ActiveRecord::Schema.define(version: 20171212144853) do
     t.string "picture"
     t.index ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_microposts_on_user_id"
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "code"
+    t.integer "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_projects_on_company_id"
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -45,6 +67,8 @@ ActiveRecord::Schema.define(version: 20171212144853) do
     t.datetime "activated_at"
     t.string "reset_digest"
     t.datetime "reset_sent_at"
+    t.integer "company_id"
+    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

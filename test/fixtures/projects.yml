@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+PE788:
+  code: PE788
+  company: ACME
+
+CA410:
+  code: CA410
+  company: ACME

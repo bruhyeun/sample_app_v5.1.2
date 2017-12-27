@@ -49,16 +49,6 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   
-  # Activates an account.
-  def activate
-    update_columns(activated: FILL_IN, activated_at: FILL_IN)
-  end
-
-  # Sends activation email.
-  def send_activation_email
-    UserMailer.account_activation(self).deliver_now
-  end
-  
   def following
     @title = "Following"
     @user  = User.find(params[:id])
@@ -75,10 +65,6 @@ class UsersController < ApplicationController
 
   
   private
-  
-    def create_activation_digest
-    # Create the token and digest.
-    end
 
     def user_params
       params.require(:user).permit(:name, :email, :password,
@@ -92,10 +78,4 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user)
     end
-    
-    # Confirms an admin user.
-    def admin_user
-      redirect_to(root_url) unless current_user.admin?
-    end
-    
 end

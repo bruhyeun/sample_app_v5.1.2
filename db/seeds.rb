@@ -6,11 +6,33 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+# Company
+Company.create!(name: "Acme Corporation",
+                address1: Faker::Address.street_address,
+                address2: Faker::Address.secondary_address,
+                city: Faker::Address.city,
+                post_code: Faker::Address.postcode,
+                country: Faker::Address.country,
+                email: Faker::Internet.safe_email("Acme Corporation"),
+                contact_number: Faker::PhoneNumber.phone_number)
+
+10.times do
+  Company.create!(name: Faker::Company.name,
+                  address1: Faker::Address.street_address,
+                  address2: Faker::Address.secondary_address,
+                  city: Faker::Address.city,
+                  post_code: Faker::Address.postcode,
+                  country: Faker::Address.country,
+                  email: Faker::Internet.safe_email,
+                  contact_number: Faker::PhoneNumber.phone_number)
+end
+
 # Users
 User.create!(name:  "Example User",
              email: "example@railstutorial.org",
              password:              "foobar",
              password_confirmation: "foobar",
+             company: Company.find_by_name("Acme Corporation"),
              admin:     true,
              activated: true,
              activated_at: Time.zone.now)
@@ -23,6 +45,7 @@ User.create!(name:  "Example User",
               email: email,
               password:              password,
               password_confirmation: password,
+              company: Company.find_by_name("Acme Corporation"),
               activated: true,
               activated_at: Time.zone.now)
 end

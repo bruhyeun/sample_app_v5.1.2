@@ -6,6 +6,12 @@
 
   <%= f.label :email %>
   <%= f.email_field :email, class: 'form-control' %>
+  
+  <%= f.label :company %>
+  <%= f.select :company_id, 
+                Company.all.collect { |c| [ c.name, c.id ] }, 
+                { include_blank: false }, 
+                { class: 'form-control' } %>
 
   <%= f.label :password %>
   <%= f.password_field :password, class: 'form-control' %>

@@ -1,0 +1,15 @@
+<tr>
+  <td>
+    <%= link_to project.code, project.code %>
+  </td>
+  <td></td>
+  <td>  
+    <div class="btn-group mr-2" role="group">
+    <%= link_to icon("pencil", class: "fa-fw"), edit_project_path(project.code),
+                class: "btn btn-sm", role: "button" %>
+    <%= link_to icon("trash", class: "fa-fw"), project, 
+                class: "btn btn-sm", role: "button",
+                method: :delete, data: { confirm: "You sure?" } %>
+    </div>
+  </td>
+</tr>

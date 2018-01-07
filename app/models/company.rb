@@ -14,5 +14,5 @@ class Company < ApplicationRecord
   validates :country,         length: { maximum: 50 }
   validates :email,           length: { maximum: 255 },
                               format: { with: VALID_EMAIL_REGEX }
-  validates :contact_number,  length: { maximum: 20 }
+  validates :contact_number,  length: { maximum: 25 }
 end

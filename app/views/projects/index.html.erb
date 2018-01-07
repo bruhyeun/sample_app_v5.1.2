@@ -1,0 +1,20 @@
+<% provide(:title, 'All projects') %>
+<h1>All projects</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Code</th>
+      <th scope="col">Description</th>
+      <th>
+        <%= link_to icon("plus", "New", class: "fa-fw"), new_project_path,
+                    class: "btn btn-sm", role: "button" %>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render @projects unless @projects.nil? %>
+  </tbody>
+</table>
+
+<%= will_paginate unless @projects.nil? %>

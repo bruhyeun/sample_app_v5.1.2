@@ -7,8 +7,8 @@
       <%= nav_item "View", "#" %>
       <%= dropdown "Projects", "#" do %>
         <%= dropdown_menu do %>
-          <%= dropdown_item("Add Project...", "#") %>
-          <%= dropdown_item("Edit", "#") %>
+          <%= dropdown_item("Add Project...", new_project_path) %>
+          <%= dropdown_item("List", projects_path) %>
         <% end %>
       <% end %>
       <%= nav_item "Tools", "#" %>

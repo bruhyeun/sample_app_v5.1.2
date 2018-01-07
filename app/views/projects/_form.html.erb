@@ -1,0 +1,9 @@
+<%= form_for(@project) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+
+  <%= f.label :code %>
+  <%= f.text_field :code, class: 'form-control' %>
+  <%= f.hidden_field :company_id, value: current_user.company_id %>
+
+  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+<% end %>

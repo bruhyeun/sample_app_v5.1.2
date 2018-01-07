@@ -1,0 +1,17 @@
+<% provide(:title, @project.code) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <h1>
+        <%= @project.code %>
+      </h1>
+      <%= form_for @project, url: { action: :upload } do |f| %>
+        <%= f.label :files, "Import files to database", class: "col-form-label col-form-label-sm" %>
+        <%= f.file_field :files, class: "form-control-file" %>
+        <%= f.submit "Import files", class: "btn btn-primary" %>
+      <% end %>
+    </section>
+  </aside>
+  <div class="col-md-8">
+  </div>
+</div>

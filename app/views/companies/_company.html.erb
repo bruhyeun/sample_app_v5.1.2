@@ -1,6 +1,8 @@
 <tr>
-  <td><%= company.name %></td>
-  <td><%= company.alias %></td>
+  <td>
+    <%= company.alias.blank? ? company.name : 
+                               company.name + " (" + company.alias + ")" %>
+  </td>
   <td>
     <address>
       <%= company.address1 %></br>

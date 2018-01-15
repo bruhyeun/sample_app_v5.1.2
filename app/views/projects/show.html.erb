@@ -1,17 +1,44 @@
 <% provide(:title, @project.code) %>
-<div class="row">
-  <aside class="col-md-4">
-    <section>
-      <h1>
-        <%= @project.code %>
-      </h1>
-      <%= form_for @project, url: { action: :upload } do |f| %>
-        <%= f.label :files, "Import files to database", class: "col-form-label col-form-label-sm" %>
-        <%= f.file_field :files, class: "form-control-file" %>
-        <%= f.submit "Import files", class: "btn btn-primary" %>
-      <% end %>
-    </section>
-  </aside>
-  <div class="col-md-8">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-header">
+          <%= @project.code %>
+        </div>
+        <div class="card-body">
+          <section>
+            <p>
+              <button class="btn btn-sm" type="button" data-toggle="collapse" 
+                      data-target="#collapseExample" aria-expanded="false" 
+                      aria-controls="collapseExample">
+                <%= icon "upload", "Import Files" %>
+              </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+              <div class="card card-body">
+                <%= form_for @project, url: { action: :import_files } do |f| %>
+                  <%= f.file_field :files, class: "form-control-file", 
+                                           multiple: true %>
+                  <%= f.submit "Import", class: "btn btn-primary btn-sm" %>
+                <% end %>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-header">
+          <%= "" %>
+        </br>
+        </div>
+        <div class="card-body">
+        </div>
+      </div>
+    </div>
   </div>
 </div>

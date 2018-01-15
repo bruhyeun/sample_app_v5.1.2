@@ -1,3 +1,5 @@
+require 'csv'
+
 class ProjectsController < ApplicationController
   before_action :logged_in_user
   
@@ -61,11 +63,26 @@ class ProjectsController < ApplicationController
     end
   end
   
-  def upload
+  def import_files
     @project = Project.find_by(code: params[:code])
     @files = params[:project][:files]
-    puts "Processing files"
-    puts @files.original_filename
+    puts "Processing files:"
+    params[:project][:files].each do |file|
+      puts file.original_filename
+      @file = @project.sensor_logging_sessions.build(source_filename: file.original_filename,
+                                                    source_folder: "source_folder")
+      CSV.foreach(file.tempfile, headers: true) do |row|
+        if row.headers.include?("Time") and
+            row.headers.include?("Latitude") and
+            row.headers.include?("Longitude")
+          row.headers.each do |h|
+            puts "#{h}: #{row.field(h)}"
+          end
+        else
+          puts "#{file.original_filename} is not a GpsPositionAbsolute file"
+        end
+      end
+    end
     redirect_to project_url
   end
   
@@ -89,7 +106,7 @@ class ProjectsController < ApplicationController
     def connect_db(code)
       puts "Connecting to SQLite database for #{code}"
       begin
-        return SQLite3::Database.new("db/#{code}.sqlite3")
+        return SQLite3::Database.new("db_project/#{code}.sqlite3")
       rescue => e
         puts e
         return nil
@@ -99,7 +116,7 @@ class ProjectsController < ApplicationController
     def archive_db(code)
       puts "Archiving SQLite database for #{code}"
       begin
-        File.rename "db/#{code}.sqlite3", "db/archive/#{Time.now.strftime("%Y%m%d%H%M%S")}_#{code}.sqlite3"
+        File.rename "db_project/#{code}.sqlite3", "db_project/archive/#{Time.now.strftime("%Y%m%d%H%M%S")}_#{code}.sqlite3"
         puts "SQLite database for #{code} has been archived"
         return 0
       rescue => e
@@ -111,7 +128,7 @@ class ProjectsController < ApplicationController
     def delete_db(code)
       puts "Archiving SQLite database for #{code}"
       begin
-        File.delete "db/#{code}.sqlite3"
+        File.delete "db_project/#{code}.sqlite3"
         puts "SQLite database for #{code} has been archived"
         return 0
       rescue => e

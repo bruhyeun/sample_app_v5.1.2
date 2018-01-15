@@ -20,7 +20,9 @@ Rails.application.routes.draw do
   resources :companies,           except: [:show]
   resources :projects, param: :code do
     member do
-      patch :upload
+      patch :import_files
     end
   end
+  resources :sensor_logging_sessions
+  resources :gps_position_absolute
 end

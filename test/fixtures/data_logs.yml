@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project: one
+  vessel: one
+  sensor: one
+  filename: MyString
+  path: MyString
+  data_types: MyString
+
+two:
+  project: two
+  vessel: two
+  sensor: two
+  filename: MyString
+  path: MyString
+  data_types: MyString

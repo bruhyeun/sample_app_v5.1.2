@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
   belongs_to :company
+  has_many :data_logs
   attr_accessor :files
   
   validates :code, presence: true, uniqueness: true

@@ -27,6 +27,13 @@ Company.create!(name: "Acme Corporation",
                   contact_number: Faker::PhoneNumber.phone_number)
 end
 
+# Projects
+99.times do |n|
+  Project.create!(code: sprintf("PE0%02i", n+1),
+                  company: Company.find_by_name("Acme Corporation"),
+                  description: Faker::Lorem.sentence(5))
+end
+
 # Users
 User.create!(name:  "Example User",
              email: "example@railstutorial.org",

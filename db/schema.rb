@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171225184045) do
+ActiveRecord::Schema.define(version: 20180116144647) do
 
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
@@ -26,6 +26,34 @@ ActiveRecord::Schema.define(version: 20171225184045) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "data_logs", force: :cascade do |t|
+    t.integer "project_id"
+    t.integer "vessel_id"
+    t.integer "sensor_id"
+    t.string "source_filename"
+    t.string "source_folder"
+    t.string "data_types"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_data_logs_on_project_id"
+    t.index ["sensor_id"], name: "index_data_logs_on_sensor_id"
+    t.index ["vessel_id"], name: "index_data_logs_on_vessel_id"
+  end
+
+  create_table "logged_data", force: :cascade do |t|
+    t.integer "project_id"
+    t.integer "vessel_id"
+    t.integer "sensor_id"
+    t.string "filename"
+    t.string "path"
+    t.string "data_types"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_logged_data_on_project_id"
+    t.index ["sensor_id"], name: "index_logged_data_on_sensor_id"
+    t.index ["vessel_id"], name: "index_logged_data_on_vessel_id"
+  end
+
   create_table "microposts", force: :cascade do |t|
     t.text "content"
     t.integer "user_id"
@@ -38,6 +66,7 @@ ActiveRecord::Schema.define(version: 20171225184045) do
 
   create_table "projects", force: :cascade do |t|
     t.string "code"
+    t.string "description"
     t.integer "company_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -52,6 +81,12 @@ ActiveRecord::Schema.define(version: 20171225184045) do
     t.index ["followed_id"], name: "index_relationships_on_followed_id"
     t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
+  end
+
+  create_table "sensors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -70,6 +105,12 @@ ActiveRecord::Schema.define(version: 20171225184045) do
     t.integer "company_id"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "vessels", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

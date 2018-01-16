@@ -3,7 +3,9 @@
 PE788:
   code: PE788
   company: acme
+  description: Positioning Project
 
 CA410:
   code: CA410
   company: acme
+  description: Construction Project

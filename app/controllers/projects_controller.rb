@@ -8,7 +8,8 @@ class ProjectsController < ApplicationController
       @projects = Project.all.paginate(page: params[:page])
     else
       if Project.count > 0
-        @projects = Project.find_by(company_id: current_user.company_id).paginate(page: params[:page])
+        @projects = Project.find_by(company_id: current_user.company_id)
+                           .paginate(page: params[:page])
       else
         @projects = Project.find_by(company_id: current_user.company_id)
       end
@@ -21,21 +22,15 @@ class ProjectsController < ApplicationController
   
   def show
     @project = Project.find_by(code: params[:code])
-    @db = connect_db @project.code
   end
   
   def create
     @project = Project.new(project_params)
-    if create_db(@project.code).nil?
-      if @project.save
-        flash[:info] = "New project added."
-        redirect_to projects_url
-      else
-        delete_db(@project.code)
-        render 'new'
-      end
+    if @project.save
+      flash[:info] = "New project added."
+      redirect_to projects_url
     else
-      flash[:error] = "Unable to create database. Project not created."
+      render 'new'
     end
   end
   
@@ -54,13 +49,9 @@ class ProjectsController < ApplicationController
   end
   
   def destroy
-    if archive_db(params[:code]).nil?
-      flash[:error] = "Unable to archive database. Project not deleted."
-    else
-      Project.find_by(code: params[:code]).destroy
-      flash[:success] = "Project deleted"
-      redirect_to projects_url
-    end
+    Project.find_by(code: params[:code]).destroy
+    flash[:success] = "Project deleted"
+    redirect_to projects_url
   end
   
   def import_files
@@ -69,7 +60,7 @@ class ProjectsController < ApplicationController
     puts "Processing files:"
     params[:project][:files].each do |file|
       puts file.original_filename
-      @file = @project.sensor_logging_sessions.build(source_filename: file.original_filename,
+      @file = @project.data_logs.build(source_filename: file.original_filename,
                                                     source_folder: "source_folder")
       CSV.foreach(file.tempfile, headers: true) do |row|
         if row.headers.include?("Time") and
@@ -92,48 +83,48 @@ class ProjectsController < ApplicationController
       params.require(:project).permit(:code, :company_id, :files)
     end
     
-    def create_db(code)
-      puts "Creating SQLite database for #{code}"
-      begin
-        SQLite3::Database.new("db/#{code}.sqlite3")
-      rescue => e
-        puts e
-        return nil
-      end
-      puts "SQLite database created for #{code}"
-    end
+    # def create_db(code)
+    #   puts "Creating SQLite database for #{code}"
+    #   begin
+    #     SQLite3::Database.new("db/#{code}.sqlite3")
+    #   rescue => e
+    #     puts e
+    #     return nil
+    #   end
+    #   puts "SQLite database created for #{code}"
+    # end
     
-    def connect_db(code)
-      puts "Connecting to SQLite database for #{code}"
-      begin
-        return SQLite3::Database.new("db_project/#{code}.sqlite3")
-      rescue => e
-        puts e
-        return nil
-      end
-    end
+    # def connect_db(code)
+    #   puts "Connecting to SQLite database for #{code}"
+    #   begin
+    #     return SQLite3::Database.new("db_project/#{code}.sqlite3")
+    #   rescue => e
+    #     puts e
+    #     return nil
+    #   end
+    # end
     
-    def archive_db(code)
-      puts "Archiving SQLite database for #{code}"
-      begin
-        File.rename "db_project/#{code}.sqlite3", "db_project/archive/#{Time.now.strftime("%Y%m%d%H%M%S")}_#{code}.sqlite3"
-        puts "SQLite database for #{code} has been archived"
-        return 0
-      rescue => e
-        puts e
-        return nil
-      end
-    end
+    # def archive_db(code)
+    #   puts "Archiving SQLite database for #{code}"
+    #   begin
+    #     File.rename "db_project/#{code}.sqlite3", "db_project/archive/#{Time.now.strftime("%Y%m%d%H%M%S")}_#{code}.sqlite3"
+    #     puts "SQLite database for #{code} has been archived"
+    #     return 0
+    #   rescue => e
+    #     puts e
+    #     return nil
+    #   end
+    # end
     
-    def delete_db(code)
-      puts "Archiving SQLite database for #{code}"
-      begin
-        File.delete "db_project/#{code}.sqlite3"
-        puts "SQLite database for #{code} has been archived"
-        return 0
-      rescue => e
-        puts e
-        return nil
-      end
-    end
+    # def delete_db(code)
+    #   puts "Archiving SQLite database for #{code}"
+    #   begin
+    #     File.delete "db_project/#{code}.sqlite3"
+    #     puts "SQLite database for #{code} has been archived"
+    #     return 0
+    #   rescue => e
+    #     puts e
+    #     return nil
+    #   end
+    # end
 end

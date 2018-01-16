@@ -1,4 +1,12 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-ACME:
-  name: ACME
+acme:
+  name: acme corporation
+  alias: acme
+  address1: Address St
+  address2:
+  city: Manila
+  post_code: 1229
+  country: Philippines
+  email: acme@example.com
+  contact_number: 8529093

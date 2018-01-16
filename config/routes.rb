@@ -23,6 +23,4 @@ Rails.application.routes.draw do
       patch :import_files
     end
   end
-  resources :sensor_logging_sessions
-  resources :gps_position_absolute
 end

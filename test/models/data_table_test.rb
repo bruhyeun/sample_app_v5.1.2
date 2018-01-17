@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class VesselTest < ActiveSupport::TestCase
+class DataTableTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

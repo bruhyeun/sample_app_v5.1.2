@@ -5,16 +5,14 @@
       <div class="card">
         <div class="card-header">
           <%= @project.code %>
+          <button class="btn btn-sm" type="button" data-toggle="collapse" 
+                  data-target="#collapseExample" aria-expanded="false" 
+                  aria-controls="collapseExample">
+            <%= icon "upload", "Import Files" %>
+          </button>
         </div>
         <div class="card-body">
           <section>
-            <p>
-              <button class="btn btn-sm" type="button" data-toggle="collapse" 
-                      data-target="#collapseExample" aria-expanded="false" 
-                      aria-controls="collapseExample">
-                <%= icon "upload", "Import Files" %>
-              </button>
-            </p>
             <div class="collapse" id="collapseExample">
               <div class="card card-body">
                 <%= form_for @project, url: { action: :import_files } do |f| %>
@@ -25,6 +23,16 @@
               </div>
             </div>
           </section>
+          <% if @project.data_tables.count > 0 %>
+          <section>
+            <div class="list-group">
+            <% @project.data_tables.each do |data_table| %>
+              <%= link_to data_table.source_filename, "#", 
+                          class: "list-group-item list-group-item-action" %>
+            <% end %>
+            </div>
+          </section>
+          <% end %>
         </div>
       </div>
     </div>

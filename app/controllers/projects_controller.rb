@@ -60,19 +60,20 @@ class ProjectsController < ApplicationController
     puts "Processing files:"
     params[:project][:files].each do |file|
       puts file.original_filename
-      @file = @project.data_logs.build(source_filename: file.original_filename,
-                                                    source_folder: "source_folder")
-      CSV.foreach(file.tempfile, headers: true) do |row|
-        if row.headers.include?("Time") and
-            row.headers.include?("Latitude") and
-            row.headers.include?("Longitude")
-          row.headers.each do |h|
-            puts "#{h}: #{row.field(h)}"
-          end
-        else
-          puts "#{file.original_filename} is not a GpsPositionAbsolute file"
-        end
-      end
+      csv = CSV.parse(file.tempfile, {headers: true})
+      json = csv.map(&:to_h).to_json
+      @file = @project.data_tables.build(source_filename: file.original_filename,
+                                         source_folder: "source_folder",
+                                         header: csv.headers,
+                                         data: json)
+      @file.save!
+      # CSV.foreach(file.tempfile, headers: true) do |row|
+      #   create_table source_filename do |t|
+      #     row.headers.each do |h|
+      #       puts "#{h}: #{row.field(h)}"
+      #     end
+      #   end
+      # end
     end
     redirect_to project_url
   end

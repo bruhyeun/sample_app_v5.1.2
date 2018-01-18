@@ -1,0 +1,21 @@
+<% provide(:title, 'All projects') %>
+<h1>All projects</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <% YAML.load(@data_table.header).each do |h| %>
+        <th scope="col"><%= h %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+  <% @data.each do |row| %>
+    <tr>
+    <% row.each do |c| %>
+      <td><%= c[1] %></td>
+    <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

@@ -60,11 +60,11 @@ class ProjectsController < ApplicationController
     puts "Processing files:"
     params[:project][:files].each do |file|
       puts file.original_filename
-      csv = CSV.parse(file.tempfile, {headers: true})
+      csv = CSV.parse(file.tempfile, {headers: true, converters: :all})
       json = csv.map(&:to_h).to_json
       @file = @project.data_tables.build(source_filename: file.original_filename,
                                          source_folder: "source_folder",
-                                         header: csv.headers,
+                                         header: csv.headers.to_s.gsub("\"", ""),
                                          data: json)
       @file.save!
       # CSV.foreach(file.tempfile, headers: true) do |row|

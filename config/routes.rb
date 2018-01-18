@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :projects, param: :code do
     member do
       patch :import_files
+      resources :data_tables
     end
   end
 end

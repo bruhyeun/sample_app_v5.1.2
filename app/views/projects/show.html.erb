@@ -25,12 +25,13 @@
           </section>
           <% if @project.data_tables.count > 0 %>
           <section>
-            <div class="list-group">
+            <nav class="nav flex-column">
             <% @project.data_tables.each do |data_table| %>
-              <%= link_to data_table.source_filename, data_table_path(code: @project.code, id: data_table), 
-                          class: "list-group-item list-group-item-action" %>
+              <%= link_to data_table.source_filename, 
+                          data_table_path(code: @project.code, id: data_table), 
+                          class: "nav-link" %>
             <% end %>
-            </div>
+            </nav>
           </section>
           <% end %>
         </div>
@@ -39,14 +40,7 @@
     
     
     <div class="col-sm-8">
-      <div class="card">
-        <div class="card-header">
-          <%= "" %>
-        </br>
-        </div>
-        <div class="card-body">
-        </div>
-      </div>
+      <%= render @data_table unless @data_table.nil? %>
     </div>
   </div>
 </div>

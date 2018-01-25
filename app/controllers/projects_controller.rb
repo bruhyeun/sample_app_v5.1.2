@@ -2,6 +2,7 @@ require 'csv'
 
 class ProjectsController < ApplicationController
   before_action :logged_in_user
+  before_action :find_project, only: [:show, :edit, :update, :import_files]
   
   def index
     if current_user.admin?
@@ -21,7 +22,6 @@ class ProjectsController < ApplicationController
   end
   
   def show
-    @project = Project.find_by(code: params[:code])
   end
   
   def create
@@ -35,11 +35,9 @@ class ProjectsController < ApplicationController
   end
   
   def edit
-    @project = Project.find_by(code: params[:code])
   end
   
   def update
-    @project = Project.find_by(code: params[:code])
     if @project.update_attributes(project_params)
       flash[:success] = "Project details updated"
       redirect_to projects_url
@@ -55,25 +53,27 @@ class ProjectsController < ApplicationController
   end
   
   def import_files
-    @project = Project.find_by(code: params[:code])
-    @files = params[:project][:files]
     puts "Processing files:"
     params[:project][:files].each do |file|
+      
       puts file.original_filename
-      csv = CSV.parse(file.tempfile, {headers: true, converters: :all})
-      json = csv.map(&:to_h).to_json
-      @file = @project.data_tables.build(source_filename: file.original_filename,
-                                         source_folder: "source_folder",
-                                         header: csv.headers.to_s.gsub("\"", ""),
-                                         data: json)
-      @file.save!
-      # CSV.foreach(file.tempfile, headers: true) do |row|
-      #   create_table source_filename do |t|
-      #     row.headers.each do |h|
-      #       puts "#{h}: #{row.field(h)}"
-      #     end
-      #   end
-      # end
+      
+      # header = CSV.parse(file.tempfile, {headers: true, converters: :all})
+      # json = file.tempfile.size > 2.megabytes ? "" : csv.map(&:to_h).to_json
+      
+      CSV.foreach(file.tempfile, headers: true) do |row|
+        if @data_table.nil?
+          @data_table = @project.data_tables.build(source_filename: file.original_filename,
+                                   source_folder: "source_folder",
+                                   header: row.headers.to_s.gsub("\"", ""),
+                                   data: "")
+          @data_table.save!
+        else
+          @data_record = @data_table.data_records.build(row: row)
+          @data_record.save!
+        end
+      end
+      
     end
     redirect_to project_url
   end
@@ -84,48 +84,7 @@ class ProjectsController < ApplicationController
       params.require(:project).permit(:code, :company_id, :files)
     end
     
-    # def create_db(code)
-    #   puts "Creating SQLite database for #{code}"
-    #   begin
-    #     SQLite3::Database.new("db/#{code}.sqlite3")
-    #   rescue => e
-    #     puts e
-    #     return nil
-    #   end
-    #   puts "SQLite database created for #{code}"
-    # end
-    
-    # def connect_db(code)
-    #   puts "Connecting to SQLite database for #{code}"
-    #   begin
-    #     return SQLite3::Database.new("db_project/#{code}.sqlite3")
-    #   rescue => e
-    #     puts e
-    #     return nil
-    #   end
-    # end
-    
-    # def archive_db(code)
-    #   puts "Archiving SQLite database for #{code}"
-    #   begin
-    #     File.rename "db_project/#{code}.sqlite3", "db_project/archive/#{Time.now.strftime("%Y%m%d%H%M%S")}_#{code}.sqlite3"
-    #     puts "SQLite database for #{code} has been archived"
-    #     return 0
-    #   rescue => e
-    #     puts e
-    #     return nil
-    #   end
-    # end
-    
-    # def delete_db(code)
-    #   puts "Archiving SQLite database for #{code}"
-    #   begin
-    #     File.delete "db_project/#{code}.sqlite3"
-    #     puts "SQLite database for #{code} has been archived"
-    #     return 0
-    #   rescue => e
-    #     puts e
-    #     return nil
-    #   end
-    # end
+    def find_project
+      @project = Project.find_by(code: params[:code])
+    end
 end

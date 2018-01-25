@@ -1,6 +1,7 @@
 class CompaniesController < ApplicationController
   before_action :logged_in_user
-  before_action :admin_user,     only: [:new, :edit, :udpate, :destroy]
+  before_action :admin_user,      only: [:new, :edit, :udpate, :destroy]
+  before_action :find_company,    only: [:edit, :udpate]
   
   def index
     @companies = Company.all.paginate(page: params[:page])
@@ -21,11 +22,9 @@ class CompaniesController < ApplicationController
   end
   
   def edit
-    @company = Company.find(params[:id])
   end
   
   def update
-    @company = Company.find(params[:id])
     if @company.update_attributes(company_params)
       flash[:success] = "Company details updated"
       redirect_to companies_url
@@ -46,5 +45,9 @@ class CompaniesController < ApplicationController
       params.require(:company).permit(:name, :alias, :address1, :address2,
                                       :city, :post_code, :country,
                                       :email, :contact_number)
+    end
+    
+    def find_company
+      @company = Company.find(params[:id])
     end
 end

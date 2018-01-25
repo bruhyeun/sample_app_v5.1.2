@@ -1,6 +1,6 @@
 class Project < ApplicationRecord
   belongs_to :company
-  has_many :data_tables
+  has_many :data_tables, dependent: :destroy
   attr_accessor :files
   
   validates :code, presence: true, uniqueness: true

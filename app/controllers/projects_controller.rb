@@ -75,7 +75,7 @@ class ProjectsController < ApplicationController
       end
       
     end
-    redirect_to project_url
+    redirect_to data_table_path(code: @project.code, id: @data_table.id)
   end
   
   private

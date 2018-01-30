@@ -1,0 +1,9 @@
+          <div class="collapse" id="collapseExample">
+            <div class="table table-bordered">
+              <%= form_for @project, url: { action: :import_files } do |f| %>
+                <%= f.file_field :files, class: "form-control-file", 
+                                         multiple: true %>
+                <%= f.submit "Import", class: "btn btn-primary btn-sm" %>
+              <% end %>
+            </div>
+          </div>

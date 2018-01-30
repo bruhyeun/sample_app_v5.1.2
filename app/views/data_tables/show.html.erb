@@ -1,23 +1,37 @@
-<h1><%= @data_table.source_filename %></h1>
-
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <% YAML.load(@data_table.header).each do |h| %>
-        <th scope="col" class="text-center"><%= h %></th>
+<% provide(:title, @project.code) %>
+<div class="container-fluid">
+  <div class="row">
+    <%= render 'data_tables/list' %>
+    <div class="col-sm-9">
+      <%= tag.h1 data: { toggle: "tooltip", placement: "right" },
+                  title: @data_table.source_filename do %> 
+        <%= @data_table.source_filename.truncate(50, 
+            omission: "...#{@data_table.source_filename.last(8)}") %>
       <% end %>
-    </tr>
-  </thead>
-  <tbody>
-  <% @data_records.each do |record| %>
-    <tr>
-    <% record.row.split(",").each do |c| %>
-      <td class="text-center"><%= c %></td>
-    <% end %>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+      <%= will_paginate @data_records %>
+      <table class="table table-responsive table-bordered table-hover table-sm">
+        <caption><%= page_entries_info @data_records %></caption>
+        <thead class="thead-light">
+          <tr>
+            <% YAML.load(@data_table.header).each do |h| %>
+              <th scope="col" class="text-center"><%= h %></th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+        <% @data_records.each do |record| %>
+          <tr>
+          <% record.row.split(",").each do |c| %>
+            <td class="text-center"><%= c %></td>
+          <% end %>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <%= will_paginate @data_records %>
+    </div>
+  </div>
+</div>
 
-<%= will_paginate @data_records %>
+
 

@@ -1,0 +1,10 @@
+<div class="collapse" id="importFiles">
+  <div class="card card-body">
+    <%= form_for @project, url: { controller: :projects,
+                                  action: :import_files } do |f| %>
+      <%= f.file_field :files, class: "form-control-file", 
+                               multiple: true %>
+      <%= f.submit "Import", class: "btn btn-primary btn-sm" %>
+    <% end %>
+  </div>
+</div>

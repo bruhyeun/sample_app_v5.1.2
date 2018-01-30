@@ -1,46 +1,8 @@
 <% provide(:title, @project.code) %>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-4">
-      <div class="card">
-        <div class="card-header">
-          <%= @project.code %>
-          <button class="btn btn-sm" type="button" data-toggle="collapse" 
-                  data-target="#collapseExample" aria-expanded="false" 
-                  aria-controls="collapseExample">
-            <%= icon "upload", "Import Files" %>
-          </button>
-        </div>
-        <div class="card-body">
-          <section>
-            <div class="collapse" id="collapseExample">
-              <div class="card card-body">
-                <%= form_for @project, url: { action: :import_files } do |f| %>
-                  <%= f.file_field :files, class: "form-control-file", 
-                                           multiple: true %>
-                  <%= f.submit "Import", class: "btn btn-primary btn-sm" %>
-                <% end %>
-              </div>
-            </div>
-          </section>
-          <% if @project.data_tables.count > 0 %>
-          <section>
-            <nav class="nav flex-column">
-            <% @project.data_tables.each do |data_table| %>
-              <%= link_to data_table.source_filename, 
-                          data_table_path(code: @project.code, id: data_table), 
-                          class: "nav-link" %>
-            <% end %>
-            </nav>
-          </section>
-          <% end %>
-        </div>
-      </div>
-    </div>
-    
-    
+    <%= render 'data_tables/list' %>
     <div class="col-sm-8">
-      <%= render @data_table unless @data_table.nil? %>
     </div>
   </div>
 </div>

@@ -1,0 +1,40 @@
+<div class="col-sm-3">
+  <table class="table table-hover table-sm">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">
+          <%= @project.code %>
+        </th>
+        <th>
+          <%= button_tag class: "btn btn-sm", type:"button",
+                  data: { toggle: "collapse",  target: "#importFiles" },
+                  aria: { expanded: "false", controls: "importFiles" } do %>
+            <%= icon "upload" %>
+          <% end %>
+        </th>
+        <%= render 'projects/import_files' %>
+      </tr>
+    </thead>
+    <tbody>
+    <% @project.data_tables.each do |data_table| %>
+      <tr>
+        <td>
+        <%= link_to data_table.source_filename.truncate(40, 
+                    omission: "...#{data_table.source_filename.last(8)}"), 
+                    data_table_path(code: @project.code, id: data_table), 
+                    class: "nav-link",
+                    data: {toggle: "tooltip", placement: "right"},
+                    title: data_table.source_filename %>
+        </td>
+        <td>
+        <%= link_to icon("remove", class: "fa-fw"), 
+                    data_table_path(code: @project.code, id: data_table), 
+                    class: "btn btn-sm", role: "button",
+                    method: :delete,
+                    data: { confirm: "You sure? This will delete ALL related records!" } %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

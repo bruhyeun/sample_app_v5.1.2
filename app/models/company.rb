@@ -1,5 +1,5 @@
 class Company < ApplicationRecord
-  has_many :projects
+  has_many :projects, dependent: :destroy
   has_many :users, dependent: :destroy
   has_many :employees, through: :users
   default_scope -> { order(name: :asc) }

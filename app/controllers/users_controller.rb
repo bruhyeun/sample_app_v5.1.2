@@ -3,7 +3,7 @@ class UsersController < ApplicationController
                                          :following, :followers]
   before_action :correct_user,    only: [:edit, :update]
   before_action :admin_user,      only:  :destroy
-  before_action :find_user,       only: [:show, :edit, :update,
+  before_action :find_user,       only: [:show, :edit, :update, :destroy,
                                          :following, :followers]
 
   def index
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
   end
   
   def destroy
-    User.find(params[:id]).destroy
+    DestroyJob.perform_later(@user)
     flash[:success] = "User deleted"
     redirect_to users_url
   end

@@ -21,9 +21,11 @@ gem 'will_paginate-bootstrap4','0.1.3'
 gem 'sprockets-rails',         '3.2.1'
 gem 'font-awesome-sass',       '4.7.0'
 gem 'sqlite3',                 '1.3.13'
+gem 'redis',                   '4.0.1'
+gem 'resque',                  '1.27.4', require: 'resque/server'
 
 group :development, :test do
-  gem 'byebug',  '9.0.6', platform: :mri
+  gem 'byebug',                '9.0.6', platform: :mri
 end
 
 group :development do
@@ -40,9 +42,9 @@ group :test do
   gem 'guard-minitest',           '2.4.6'
 end
 
-group :production do
-  gem 'pg', '0.20.0'
-end
+# group :production do
+#   gem 'pg', '0.20.0'
+# end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

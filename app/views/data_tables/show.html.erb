@@ -4,7 +4,7 @@
     <%= render 'data_tables/list' %>
     <div class="col-sm-9">
       <%= tag.h1 data: { toggle: "tooltip", placement: "right" },
-                  title: @data_table.source_filename do %> 
+                  title: "#{@data_table.source_folder}/#{@data_table.source_filename}" do %> 
         <%= @data_table.source_filename.truncate(50, 
             omission: "...#{@data_table.source_filename.last(8)}") %>
       <% end %>

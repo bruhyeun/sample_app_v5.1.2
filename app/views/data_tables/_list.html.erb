@@ -24,7 +24,7 @@
                     data_table_path(code: @project.code, id: data_table), 
                     class: "nav-link",
                     data: {toggle: "tooltip", placement: "right"},
-                    title: data_table.source_filename %>
+                    title: "#{data_table.source_folder}/#{data_table.source_filename}" %>
         </td>
         <td>
         <%= link_to icon("remove", class: "fa-fw"), 

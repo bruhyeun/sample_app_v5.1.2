@@ -17,8 +17,7 @@ class DataTablesController < ApplicationController
   def destroy
     @data_table = DataTable.find(params[:id])
     @project = @data_table.project
-    @data_table.destroy
-    flash[:success] = "Data Table deleted"
-    redirect_to project_url(@project)
+    DestroyJob.perform_later(@data_table)
+    redirect_to project_url(@project), notice: "Data table deleted."
   end
 end

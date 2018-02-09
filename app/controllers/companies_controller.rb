@@ -1,7 +1,7 @@
 class CompaniesController < ApplicationController
   before_action :logged_in_user
   before_action :admin_user,      only: [:new, :edit, :udpate, :destroy]
-  before_action :find_company,    only: [:edit, :udpate]
+  before_action :find_company,    only: [:edit, :udpate, :destroy]
   
   def index
     @companies = Company.all.paginate(page: params[:page])
@@ -34,8 +34,7 @@ class CompaniesController < ApplicationController
   end
   
   def destroy
-    Company.find(params[:id]).destroy
-    flash[:success] = "Company deleted"
+    DestroyJob.perform_later(@company)
     redirect_to companies_url
   end
   
